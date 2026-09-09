@@ -69,3 +69,18 @@
 - [x] Transparante terracotta favicons, Apple-touch- en desktopiconen herbouwen
 - [x] Publieke, veld- en beheericonen met correcte maskable achtergrond en veilige zone
 - [x] Alle drie manifesten en browserverwijzingen controleren
+
+## Productierijp platform
+- [ ] Pershub aanvullen met twee publiceerklare dossiers, downloads, rolcitaten en contactgegevens
+- [ ] Takenmotor bouwen met aanmaken, toewijzen, afronden en zonefiltering in veld-app en beheer
+- [ ] Terreinzones koppelen aan taken en beheerbaar maken
+- [ ] Persberichten en site-instellingen vanuit het beheer bedienbaar maken
+- [ ] Verouderde en tijdelijke logo’s in publiek, veld, beheer, passen en assistent vervangen
+- [ ] E-mailtemplates naar de officiële huisstijl en beheerde verzending overzetten (wacht op afzenderdomein)
+- [ ] Publiek, veld en beheer voorzien van correcte manifesten, scopes en offlinegedrag
+- [ ] Productieroutes, noindex-regels, robots en sitemap corrigeren en controleren
+
+## Veld-app — Meer
+- [ ] Native installatievraag centraal bewaren en via “Applicatie installeren” openen
+- [ ] Reeds geïnstalleerde status en handmatige installatie-instructie tonen
+- [ ] Profiel- en teamkaart herstellen met veilige standaardwaarden en kleine-schermindeling
