@@ -64,3 +64,8 @@
 - [x] Downloadlabels vertalen in NL/FR/EN
 - [x] Indeling van kerncijfers, logo’s, iconen en kleuren verfijnen
 - [x] /nl/pers, /fr/presse en /en/press visueel en functioneel controleren
+
+## App-iconen en PWA-assets
+- [x] Transparante terracotta favicons, Apple-touch- en desktopiconen herbouwen
+- [x] Publieke, veld- en beheericonen met correcte maskable achtergrond en veilige zone
+- [x] Alle drie manifesten en browserverwijzingen controleren

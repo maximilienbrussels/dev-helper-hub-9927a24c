@@ -118,7 +118,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { name: "color-scheme", content: "light dark" },
       { name: "supported-color-schemes", content: "light dark" },
-      { name: "theme-color", content: "#166534" },
+      { name: "theme-color", content: "#D95D39" },
       { name: "mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "default" },
@@ -162,6 +162,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       // stylesheet wordt via de bundle geladen (zie import bovenaan)
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       { rel: "icon", type: "image/x-icon", sizes: "16x16 32x32 64x64", href: "/favicon.ico" },
+      { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32x32.png" },
       { rel: "icon", type: "image/png", sizes: "512x512", href: "/icons/taskbar-512.png" },
       {
         rel: "apple-touch-icon",
