@@ -93,8 +93,6 @@ export const Route = createFileRoute("/sitemap.xml")({
         } catch (error) {
           console.error("[sitemap] lastmod uit databank mislukt", error);
         }
-        const today = new Date().toISOString().slice(0, 10);
-
         // Pagina's die het team uitzette horen niet in de sitemap.
         const { loadSiteConfig } = await import("@/lib/site-config.server");
         const { isPageAvailable } = await import("@/lib/site-config");
@@ -108,7 +106,7 @@ export const Route = createFileRoute("/sitemap.xml")({
               loc: pathFor(key, lang),
               alts,
               priority: key === "home" ? "1.0" : "0.8",
-              lastmod: dbLastmod.get(key) ?? today,
+              lastmod: dbLastmod.get(key),
             });
           }
         }
@@ -146,7 +144,7 @@ export const Route = createFileRoute("/sitemap.xml")({
               loc: pathFor("news", lang, item.slug[lang]),
               alts,
               priority: "0.6",
-              lastmod: item.date,
+               lastmod: Number.isNaN(Date.parse(item.date)) ? undefined : item.date,
             });
           }
         }

@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as LangRouteImport } from './routes/$lang'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AccountRouteImport } from './routes/account'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AdoptieRouteImport } from './routes/adoptie'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BevestigenRouteImport } from './routes/bevestigen'
@@ -20,6 +21,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as EMailadresBevestigenRouteImport } from './routes/e-mailadres-bevestigen'
 import { Route as FairtechRouteImport } from './routes/fairtech'
+import { Route as FieldRouteImport } from './routes/field'
 import { Route as ImpressumRouteImport } from './routes/impressum'
 import { Route as InloglinkRouteImport } from './routes/inloglink'
 import { Route as KlantenkaartRouteImport } from './routes/klantenkaart'
@@ -27,6 +29,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as MijnHoefjesRouteImport } from './routes/mijn-hoefjes'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as PersRouteImport } from './routes/pers'
+import { Route as PressRouteImport } from './routes/press'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
@@ -170,6 +173,11 @@ const AccountRoute = AccountRouteImport.update({
   path: '/account',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdoptieRoute = AdoptieRouteImport.update({
   id: '/adoptie',
   path: '/adoptie',
@@ -205,6 +213,11 @@ const FairtechRoute = FairtechRouteImport.update({
   path: '/fairtech',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FieldRoute = FieldRouteImport.update({
+  id: '/field',
+  path: '/field',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ImpressumRoute = ImpressumRouteImport.update({
   id: '/impressum',
   path: '/impressum',
@@ -238,6 +251,11 @@ const PartnersRoute = PartnersRouteImport.update({
 const PersRoute = PersRouteImport.update({
   id: '/pers',
   path: '/pers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PressRoute = PressRouteImport.update({
+  id: '/press',
+  path: '/press',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -874,6 +892,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$lang': typeof LangRouteWithChildren
   '/account': typeof AccountRoute
+  '/admin': typeof AdminRoute
   '/adoptie': typeof AdoptieRoute
   '/auth': typeof AuthRouteWithChildren
   '/bevestigen': typeof BevestigenRoute
@@ -881,6 +900,7 @@ export interface FileRoutesByFullPath {
   '/cookies': typeof CookiesRoute
   '/e-mailadres-bevestigen': typeof EMailadresBevestigenRoute
   '/fairtech': typeof FairtechRoute
+  '/field': typeof FieldRoute
   '/impressum': typeof ImpressumRoute
   '/inloglink': typeof InloglinkRoute
   '/klantenkaart': typeof KlantenkaartRoute
@@ -888,6 +908,7 @@ export interface FileRoutesByFullPath {
   '/mijn-hoefjes': typeof MijnHoefjesRoute
   '/partners': typeof PartnersRoute
   '/pers': typeof PersRoute
+  '/press': typeof PressRoute
   '/privacy': typeof PrivacyRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -1015,12 +1036,14 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
+  '/admin': typeof AdminRoute
   '/adoptie': typeof AdoptieRoute
   '/bevestigen': typeof BevestigenRoute
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
   '/e-mailadres-bevestigen': typeof EMailadresBevestigenRoute
   '/fairtech': typeof FairtechRoute
+  '/field': typeof FieldRoute
   '/impressum': typeof ImpressumRoute
   '/inloglink': typeof InloglinkRoute
   '/klantenkaart': typeof KlantenkaartRoute
@@ -1028,6 +1051,7 @@ export interface FileRoutesByTo {
   '/mijn-hoefjes': typeof MijnHoefjesRoute
   '/partners': typeof PartnersRoute
   '/pers': typeof PersRoute
+  '/press': typeof PressRoute
   '/privacy': typeof PrivacyRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -1157,6 +1181,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/$lang': typeof LangRouteWithChildren
   '/account': typeof AccountRoute
+  '/admin': typeof AdminRoute
   '/adoptie': typeof AdoptieRoute
   '/auth': typeof AuthRouteWithChildren
   '/bevestigen': typeof BevestigenRoute
@@ -1164,6 +1189,7 @@ export interface FileRoutesById {
   '/cookies': typeof CookiesRoute
   '/e-mailadres-bevestigen': typeof EMailadresBevestigenRoute
   '/fairtech': typeof FairtechRoute
+  '/field': typeof FieldRoute
   '/impressum': typeof ImpressumRoute
   '/inloglink': typeof InloglinkRoute
   '/klantenkaart': typeof KlantenkaartRoute
@@ -1171,6 +1197,7 @@ export interface FileRoutesById {
   '/mijn-hoefjes': typeof MijnHoefjesRoute
   '/partners': typeof PartnersRoute
   '/pers': typeof PersRoute
+  '/press': typeof PressRoute
   '/privacy': typeof PrivacyRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -1301,6 +1328,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$lang'
     | '/account'
+    | '/admin'
     | '/adoptie'
     | '/auth'
     | '/bevestigen'
@@ -1308,6 +1336,7 @@ export interface FileRouteTypes {
     | '/cookies'
     | '/e-mailadres-bevestigen'
     | '/fairtech'
+    | '/field'
     | '/impressum'
     | '/inloglink'
     | '/klantenkaart'
@@ -1315,6 +1344,7 @@ export interface FileRouteTypes {
     | '/mijn-hoefjes'
     | '/partners'
     | '/pers'
+    | '/press'
     | '/privacy'
     | '/register'
     | '/reset-password'
@@ -1442,12 +1472,14 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/account'
+    | '/admin'
     | '/adoptie'
     | '/bevestigen'
     | '/contact'
     | '/cookies'
     | '/e-mailadres-bevestigen'
     | '/fairtech'
+    | '/field'
     | '/impressum'
     | '/inloglink'
     | '/klantenkaart'
@@ -1455,6 +1487,7 @@ export interface FileRouteTypes {
     | '/mijn-hoefjes'
     | '/partners'
     | '/pers'
+    | '/press'
     | '/privacy'
     | '/register'
     | '/reset-password'
@@ -1583,6 +1616,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/$lang'
     | '/account'
+    | '/admin'
     | '/adoptie'
     | '/auth'
     | '/bevestigen'
@@ -1590,6 +1624,7 @@ export interface FileRouteTypes {
     | '/cookies'
     | '/e-mailadres-bevestigen'
     | '/fairtech'
+    | '/field'
     | '/impressum'
     | '/inloglink'
     | '/klantenkaart'
@@ -1597,6 +1632,7 @@ export interface FileRouteTypes {
     | '/mijn-hoefjes'
     | '/partners'
     | '/pers'
+    | '/press'
     | '/privacy'
     | '/register'
     | '/reset-password'
@@ -1727,6 +1763,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   LangRoute: typeof LangRouteWithChildren
   AccountRoute: typeof AccountRoute
+  AdminRoute: typeof AdminRoute
   AdoptieRoute: typeof AdoptieRoute
   AuthRoute: typeof AuthRouteWithChildren
   BevestigenRoute: typeof BevestigenRoute
@@ -1734,6 +1771,7 @@ export interface RootRouteChildren {
   CookiesRoute: typeof CookiesRoute
   EMailadresBevestigenRoute: typeof EMailadresBevestigenRoute
   FairtechRoute: typeof FairtechRoute
+  FieldRoute: typeof FieldRoute
   ImpressumRoute: typeof ImpressumRoute
   InloglinkRoute: typeof InloglinkRoute
   KlantenkaartRoute: typeof KlantenkaartRoute
@@ -1741,6 +1779,7 @@ export interface RootRouteChildren {
   MijnHoefjesRoute: typeof MijnHoefjesRoute
   PartnersRoute: typeof PartnersRoute
   PersRoute: typeof PersRoute
+  PressRoute: typeof PressRoute
   PrivacyRoute: typeof PrivacyRoute
   RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
@@ -1872,6 +1911,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/adoptie': {
       id: '/adoptie'
       path: '/adoptie'
@@ -1921,6 +1967,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FairtechRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/field': {
+      id: '/field'
+      path: '/field'
+      fullPath: '/field'
+      preLoaderRoute: typeof FieldRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/impressum': {
       id: '/impressum'
       path: '/impressum'
@@ -1968,6 +2021,13 @@ declare module '@tanstack/react-router' {
       path: '/pers'
       fullPath: '/pers'
       preLoaderRoute: typeof PersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/press': {
+      id: '/press'
+      path: '/press'
+      fullPath: '/press'
+      preLoaderRoute: typeof PressRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -2959,6 +3019,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   LangRoute: LangRouteWithChildren,
   AccountRoute: AccountRoute,
+  AdminRoute: AdminRoute,
   AdoptieRoute: AdoptieRoute,
   AuthRoute: AuthRouteWithChildren,
   BevestigenRoute: BevestigenRoute,
@@ -2966,6 +3027,7 @@ const rootRouteChildren: RootRouteChildren = {
   CookiesRoute: CookiesRoute,
   EMailadresBevestigenRoute: EMailadresBevestigenRoute,
   FairtechRoute: FairtechRoute,
+  FieldRoute: FieldRoute,
   ImpressumRoute: ImpressumRoute,
   InloglinkRoute: InloglinkRoute,
   KlantenkaartRoute: KlantenkaartRoute,
@@ -2973,6 +3035,7 @@ const rootRouteChildren: RootRouteChildren = {
   MijnHoefjesRoute: MijnHoefjesRoute,
   PartnersRoute: PartnersRoute,
   PersRoute: PersRoute,
+  PressRoute: PressRoute,
   PrivacyRoute: PrivacyRoute,
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,

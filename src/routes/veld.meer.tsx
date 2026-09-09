@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { Languages, LogOut, Monitor, RefreshCw } from "lucide-react";
+import { CheckCircle2, Download, Languages, LogOut, Monitor, RefreshCw, Smartphone } from "lucide-react";
 
 import { neonSupabaseCompat as supabase } from "@/lib/neon-auth-compat";
 import { usePortal } from "@/lib/portal-store";
@@ -10,6 +10,7 @@ import { FieldCard, FieldLinkAction, FieldPageHeader } from "@/components/veld/f
 import { cn } from "@/lib/utils";
 import { LANGS } from "@/lib/portal-routes";
 import type { Lang } from "@/lib/portal-types";
+import { usePwaInstall } from "@/lib/pwa-install";
 
 export const Route = createFileRoute("/veld/meer")({
   head: () => ({
@@ -28,6 +29,12 @@ function FieldMore() {
   const { currentUser, lang, setLang } = usePortal();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { canInstall, isInstalled, install } = usePwaInstall();
+
+  const displayName = currentUser.name.trim() || "Medewerker";
+  const displayEmail = currentUser.email.trim();
+  const roleLabel = currentUser.role === "admin" ? "Beheerder" : "Medewerker";
+  const teamLabel = "Team Maximilien";
 
   async function signOut() {
     await queryClient.cancelQueries();
@@ -36,7 +43,7 @@ function FieldMore() {
     void navigate({ to: "/auth", replace: true });
   }
 
-  const initials = currentUser.name
+  const initials = displayName
     .split(" ")
     .filter(Boolean)
     .slice(0, 2)
@@ -47,17 +54,49 @@ function FieldMore() {
     <div className="space-y-4">
       <FieldPageHeader eyebrow="Instellingen" title="Meer" />
 
-      <FieldCard className="flex items-center gap-3.5">
+      <FieldCard className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3.5">
         <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[var(--surface-forest)] text-[15px] font-bold text-[#f5f2ea]">
           {initials || "?"}
         </span>
         <div className="min-w-0">
-          <p className="truncate text-[17px] font-semibold leading-snug">{currentUser.name}</p>
-          <p className="truncate text-sm text-muted-foreground">{currentUser.email}</p>
-          <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.12em] text-primary">
-            {currentUser.role === "admin" ? "Beheerder" : "Team"}
+          <p className="truncate text-[17px] font-semibold leading-snug">{displayName}</p>
+          {displayEmail ? <p className="truncate text-sm text-muted-foreground">{displayEmail}</p> : null}
+          <p className="mt-1 truncate text-[11px] font-bold uppercase tracking-[0.12em] text-primary">
+            {roleLabel} · {teamLabel}
           </p>
         </div>
+      </FieldCard>
+
+      <FieldCard accent className="space-y-3">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
+          <div className="min-w-0">
+            <p className="flex items-center gap-2 text-[13px] font-bold uppercase tracking-[0.1em] text-primary">
+              <Smartphone className="h-4 w-4 shrink-0" aria-hidden /> Applicatie
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {isInstalled
+                ? "Deze veld-app staat op je startscherm."
+                : canInstall
+                  ? "Installeer de veld-app voor snelle toegang."
+                  : "Toevoegen aan startscherm via browsermenu."}
+            </p>
+          </div>
+          {isInstalled ? (
+            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-accent/12 px-2.5 py-1 text-[10px] font-bold uppercase text-accent">
+              <CheckCircle2 className="h-3.5 w-3.5" aria-hidden /> Geïnstalleerd
+            </span>
+          ) : null}
+        </div>
+        {!isInstalled ? (
+          <Button
+            type="button"
+            className="h-14 w-full rounded-xl text-base"
+            disabled={!canInstall}
+            onClick={() => void install()}
+          >
+            <Download className="mr-2 h-5 w-5" aria-hidden /> Applicatie installeren
+          </Button>
+        ) : null}
       </FieldCard>
 
       <FieldCard>

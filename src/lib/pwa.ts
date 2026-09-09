@@ -46,7 +46,7 @@ export async function registerFieldServiceWorker(): Promise<void> {
   }
 
   try {
-    await navigator.serviceWorker.register(SW_URL, { scope: "/" });
+    await navigator.serviceWorker.register(SW_URL, { scope: "/veld/" });
   } catch {
     /* offline-ondersteuning is optioneel; nooit de app blokkeren */
   }

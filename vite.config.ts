@@ -58,14 +58,15 @@ const fieldPwa = isFieldBuild
           // Alleen wat de veld-app nodig heeft; zware marketingbeelden blijven eruit.
           globPatterns: ["**/*.{js,css,woff2}", "icons/*.png"],
           navigateFallback: undefined,
-          navigateFallbackDenylist: [/^\/~oauth/, /^\/api\//],
+          navigateFallbackDenylist: [/^\/~oauth/, /^\/api\//, /^\/auth(?:\/|$)/],
           cleanupOutdatedCaches: true,
           clientsClaim: true,
           skipWaiting: true,
           runtimeCaching: [
             {
               urlPattern: ({ request, url }: { request: Request; url: URL }) =>
-                request.mode === "navigate" && !url.pathname.startsWith("/~oauth"),
+                request.mode === "navigate" &&
+                (url.pathname === "/veld" || url.pathname.startsWith("/veld/")),
               handler: "NetworkFirst",
               options: {
                 cacheName: "veld-paginas",
