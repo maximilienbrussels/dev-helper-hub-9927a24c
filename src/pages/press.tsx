@@ -85,8 +85,6 @@ const COPY = {
     fr: "Icônes & avatars",
     en: "Icons & avatars",
   } as T3,
-  horizontal: { nl: "Horizontaal", fr: "Horizontal", en: "Horizontal" } as T3,
-  stacked: { nl: "Gestapeld", fr: "Empilé", en: "Stacked" } as T3,
   creamBackground: {
     nl: "JPG op crème",
     fr: "JPG sur fond crème",
@@ -435,9 +433,9 @@ const ICON_FILES: { label: T3; href: string; size: string }[] = [
   },
 ];
 
-const COLORS: { name: string; hex: string; use: T3 }[] = [
+const COLORS: { name: T3; hex: string; use: T3 }[] = [
   {
-    name: "Bosgroen",
+    name: { nl: "Bosgroen", fr: "Vert forêt", en: "Forest green" },
     hex: "#1D3528",
     use: {
       nl: "Basiskleur, vlakken en tekst",
@@ -446,7 +444,7 @@ const COLORS: { name: string; hex: string; use: T3 }[] = [
     },
   },
   {
-    name: "Terracotta",
+    name: { nl: "Terracotta", fr: "Terracotta", en: "Terracotta" },
     hex: "#C15C3A",
     use: {
       nl: "Accenten, knoppen en logo",
@@ -455,12 +453,12 @@ const COLORS: { name: string; hex: string; use: T3 }[] = [
     },
   },
   {
-    name: "Crème",
+    name: { nl: "Crème", fr: "Crème", en: "Cream" },
     hex: "#F7F3EB",
     use: { nl: "Achtergronden en papier", fr: "Fonds et papier", en: "Backgrounds and paper" },
   },
   {
-    name: "Salie",
+    name: { nl: "Salie", fr: "Sauge", en: "Sage" },
     hex: "#9CB29B",
     use: {
       nl: "Randen en rustige vlakken",
@@ -774,7 +772,7 @@ export function PressPage() {
                     style={{ background: c.hex }}
                   />
                   <span className="mt-3 block text-sm font-medium text-foreground">
-                    {c.name}
+                    {c.name[l]}
                   </span>
                   <span className="mt-1 inline-flex items-center gap-2 font-mono text-xs uppercase text-muted-foreground">
                     {c.hex}

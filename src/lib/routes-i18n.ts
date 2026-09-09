@@ -1056,7 +1056,7 @@ export function localizedHead(
         property: "og:locale",
         content: lang === "fr" ? "fr_BE" : lang === "en" ? "en_GB" : "nl_BE",
       },
-      { "http-equiv": "content-language", content: lang },
+      { httpEquiv: "content-language", content: lang },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: title },
       { name: "twitter:description", content: description },
