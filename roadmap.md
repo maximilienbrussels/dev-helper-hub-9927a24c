@@ -58,3 +58,9 @@
 - [x] Voettekst: cookies, wettelijke vermeldingen en status
 - [x] Privacybeleid vermeldt geïsoleerde mailgate send.maximilien.site
 - [x] Nieuwe pagina's in de sitemap
+## Perspagina afwerking
+- [x] Fout op de perspagina herstellen
+- [x] Hoofdmenu en blok Logo met naam toevoegen
+- [x] Downloadlabels vertalen in NL/FR/EN
+- [x] Indeling van kerncijfers, logo’s, iconen en kleuren verfijnen
+- [x] /nl/pers, /fr/presse en /en/press visueel en functioneel controleren
