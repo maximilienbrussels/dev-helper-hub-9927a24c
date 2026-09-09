@@ -19,6 +19,7 @@ import { Toaster } from "../components/ui/sonner";
 import { getAuthClient } from "../lib/auth-client";
 import { AppErrorFallback } from "../components/AppErrorFallback";
 import { installGlobalErrorLogging } from "../lib/lovable-error-reporting";
+import { PwaInstallProvider } from "../lib/pwa-install";
 import {
   getEnvAppMode,
   getServerAppMode,
@@ -265,18 +266,20 @@ function RootComponent() {
       <I18nProvider>
         <ThemeProvider>
           <AuthProvider>
-            <Suspense fallback={<div className="min-h-screen w-full max-w-full" />}>
-              <Shell>
-                {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-                <Outlet />
-              </Shell>
-            </Suspense>
-            <Toaster />
-            {showDevToggle && (
-              <Suspense fallback={null}>
-                <DevModeToggle mode={mode} />
+            <PwaInstallProvider>
+              <Suspense fallback={<div className="min-h-screen w-full max-w-full" />}>
+                <Shell>
+                  {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+                  <Outlet />
+                </Shell>
               </Suspense>
-            )}
+              <Toaster />
+              {showDevToggle && (
+                <Suspense fallback={null}>
+                  <DevModeToggle mode={mode} />
+                </Suspense>
+              )}
+            </PwaInstallProvider>
           </AuthProvider>
         </ThemeProvider>
       </I18nProvider>

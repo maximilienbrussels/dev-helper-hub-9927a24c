@@ -95,7 +95,7 @@ const PortalContext = createContext<PortalState | null>(null);
 
 const EMPTY_USER: StaffMember = {
   id: "",
-  name: "…",
+  name: "Medewerker",
   email: "",
   role: "team",
   active: true,
