@@ -87,8 +87,13 @@ function FieldMore() {
             </span>
           ) : null}
         </div>
-        {canInstall ? (
-          <Button type="button" className="h-14 w-full rounded-xl text-base" onClick={() => void install()}>
+        {!isInstalled ? (
+          <Button
+            type="button"
+            className="h-14 w-full rounded-xl text-base"
+            disabled={!canInstall}
+            onClick={() => void install()}
+          >
             <Download className="mr-2 h-5 w-5" aria-hidden /> Applicatie installeren
           </Button>
         ) : null}
