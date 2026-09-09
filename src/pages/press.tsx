@@ -85,6 +85,18 @@ const COPY = {
     fr: "Icônes & avatars",
     en: "Icons & avatars",
   } as T3,
+  horizontal: { nl: "Horizontaal", fr: "Horizontal", en: "Horizontal" } as T3,
+  stacked: { nl: "Gestapeld", fr: "Empilé", en: "Stacked" } as T3,
+  creamBackground: {
+    nl: "JPG op crème",
+    fr: "JPG sur fond crème",
+    en: "JPG on cream",
+  } as T3,
+  forestBackground: {
+    nl: "JPG op bosgroen",
+    fr: "JPG sur fond vert forêt",
+    en: "JPG on forest green",
+  } as T3,
   clearSpace: {
     nl: "Vrije ruimte: houd rondom minstens de hoogte van de 'm' vrij.",
     fr: "Zone de protection : gardez au moins la hauteur du « m » tout autour.",
@@ -260,7 +272,7 @@ const LOCKUPS: {
   preview: string;
   previewBg: string;
   aspect: string;
-  files: { label: string; href: string }[];
+  files: { label: string | T3; href: string }[];
 }[] = [
   {
     id: "horizontaal",
@@ -279,9 +291,9 @@ const LOCKUPS: {
     aspect: "aspect-[39/10]",
     files: [
       { label: "SVG terracotta", href: "/pers/lockup-horizontaal-terracotta.svg" },
-      { label: "SVG wit", href: "/pers/lockup-horizontaal-wit.svg" },
-      { label: "SVG bosgroen", href: "/pers/lockup-horizontaal-bosgroen.svg" },
-      { label: "SVG zwart", href: "/pers/lockup-horizontaal-zwart.svg" },
+      { label: { nl: "SVG wit", fr: "SVG blanc", en: "SVG white" }, href: "/pers/lockup-horizontaal-wit.svg" },
+      { label: { nl: "SVG bosgroen", fr: "SVG vert forêt", en: "SVG forest green" }, href: "/pers/lockup-horizontaal-bosgroen.svg" },
+      { label: { nl: "SVG zwart", fr: "SVG noir", en: "SVG black" }, href: "/pers/lockup-horizontaal-zwart.svg" },
       { label: "PNG 1600 px", href: "/pers/lockup-horizontaal-terracotta-1600px.png" },
     ],
   },
@@ -302,9 +314,9 @@ const LOCKUPS: {
     aspect: "aspect-[22/18]",
     files: [
       { label: "SVG terracotta", href: "/pers/lockup-gestapeld-terracotta.svg" },
-      { label: "SVG wit", href: "/pers/lockup-gestapeld-wit.svg" },
-      { label: "SVG bosgroen", href: "/pers/lockup-gestapeld-bosgroen.svg" },
-      { label: "SVG zwart", href: "/pers/lockup-gestapeld-zwart.svg" },
+      { label: { nl: "SVG wit", fr: "SVG blanc", en: "SVG white" }, href: "/pers/lockup-gestapeld-wit.svg" },
+      { label: { nl: "SVG bosgroen", fr: "SVG vert forêt", en: "SVG forest green" }, href: "/pers/lockup-gestapeld-bosgroen.svg" },
+      { label: { nl: "SVG zwart", fr: "SVG noir", en: "SVG black" }, href: "/pers/lockup-gestapeld-zwart.svg" },
       { label: "PNG 1600 px", href: "/pers/lockup-gestapeld-bosgroen-1600px.png" },
     ],
   },
@@ -317,7 +329,7 @@ const LOGO_VARIANTS: {
   note: T3;
   preview: string;
   previewBg: string;
-  files: { label: string; href: string }[];
+  files: { label: string | T3; href: string }[];
 }[] = [
   {
     id: "terracotta",
@@ -338,7 +350,7 @@ const LOGO_VARIANTS: {
       { label: "PNG 250 px", href: "/pers/logo-maximilien-terracotta-250px.png" },
       { label: "PNG 500 px", href: "/pers/logo-maximilien-terracotta-500px.png" },
       { label: "PNG 1000 px", href: "/pers/logo-maximilien-terracotta-1000px.png" },
-      { label: "JPG op crème", href: "/pers/logo-maximilien-op-creme-1000px.jpg" },
+      { label: COPY.creamBackground, href: "/pers/logo-maximilien-op-creme-1000px.jpg" },
     ],
   },
   {
@@ -360,7 +372,7 @@ const LOGO_VARIANTS: {
       { label: "PNG 250 px", href: "/pers/logo-maximilien-wit-250px.png" },
       { label: "PNG 500 px", href: "/pers/logo-maximilien-wit-500px.png" },
       { label: "PNG 1000 px", href: "/pers/logo-maximilien-wit-1000px.png" },
-      { label: "JPG op bosgroen", href: "/pers/logo-maximilien-op-bosgroen-1000px.jpg" },
+      { label: COPY.forestBackground, href: "/pers/logo-maximilien-op-bosgroen-1000px.jpg" },
     ],
   },
   {
@@ -597,7 +609,9 @@ export function PressPage() {
   const [cropper, setCropper] = useState<{ src: string; alt: string } | null>(null);
 
   return (
-    <main className="bg-background">
+    <div className="min-h-screen bg-background text-foreground">
+      <NavHeader />
+      <main>
       {/* Hero + kerncijfers op bosgroen */}
       <section className="border-b border-border bg-[color:var(--surface-forest,#1D3528)] px-4 py-16 text-[color:var(--color-cream)] md:px-8 md:py-24">
         <div className="mx-auto max-w-5xl">
@@ -610,9 +624,7 @@ export function PressPage() {
           {/* Sprongnavigatie */}
           <nav className="mt-8 flex flex-wrap gap-2.5" aria-label={COPY.title[l]}>
             {NAV_PILLS.map((p) => (
-              <a key={p.href} href={p.href} className={DOWNLOAD_BTN_LIGHT}>
-                <span aria-hidden>{p.icon}</span> {p.label[l]}
-              </a>
+              <JumpLink key={p.href} item={p} lang={l} />
             ))}
           </nav>
 
@@ -635,13 +647,13 @@ export function PressPage() {
         </div>
       </section>
 
-      {/* Logo's + merkkleuren op bosgroen met donkere kaarten */}
-      <div className="bg-[color:var(--surface-forest,#1D3528)] px-4 py-16 text-[color:var(--color-cream)] md:px-8">
-        <div className="mx-auto max-w-5xl space-y-16">
+      {/* Logo's + merkkleuren op een rustige, lichte ondergrond */}
+      <div className="border-b border-border bg-background px-4 py-12 md:px-8 md:py-14">
+        <div className="mx-auto max-w-5xl space-y-12">
           {/* Logo's */}
           <section id="logos" className="scroll-mt-24">
-            <h2 className={SECTION_TITLE_LIGHT}>{COPY.logosTitle[l]}</h2>
-            <p className="mt-3 max-w-3xl text-sm text-[color:var(--color-cream)]/95">
+            <h2 className={SECTION_TITLE}>{COPY.logosTitle[l]}</h2>
+            <p className="mt-3 max-w-3xl text-sm text-muted-foreground">
               {COPY.logosLede[l]}
             </p>
             <a
@@ -652,11 +664,45 @@ export function PressPage() {
               <Download className="h-4 w-4" /> {COPY.zip[l]}
             </a>
 
+            <div className="mt-8 border-t border-border pt-8">
+              <h3 className="font-serif text-xl text-[color:var(--ink-forest)] md:text-2xl">
+                {COPY.lockupsTitle[l]}
+              </h3>
+              <p className="mt-2 max-w-3xl text-sm text-muted-foreground">{COPY.lockupsLede[l]}</p>
+              <div className="mt-5 grid gap-5 md:grid-cols-2">
+                {LOCKUPS.map((v) => (
+                  <article key={v.id} className={CARD}>
+                    <div
+                      className={`flex ${v.aspect} max-h-52 items-center justify-center rounded-2xl border border-border p-6`}
+                      style={{ background: v.previewBg }}
+                    >
+                      <img
+                        onError={handleImageError}
+                        src={v.preview}
+                        alt={v.name[l]}
+                        className="max-h-full w-auto"
+                        loading="lazy"
+                      />
+                    </div>
+                    <h4 className="mt-4 font-serif text-lg text-[color:var(--ink-forest)]">{v.name[l]}</h4>
+                    <p className="mt-1 text-sm text-muted-foreground">{v.note[l]}</p>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {v.files.map((f) => (
+                        <a key={f.href} href={f.href} download className={DOWNLOAD_BTN}>
+                          <Download className="h-3.5 w-3.5" /> {typeof f.label === "string" ? f.label : f.label[l]}
+                        </a>
+                      ))}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+
             <div className="mt-6 grid gap-5 md:grid-cols-2">
               {LOGO_VARIANTS.map((v) => (
-                <article key={v.id} className={DARK_CARD}>
+                <article key={v.id} className={CARD}>
                   <div
-                    className="flex h-40 items-center justify-center rounded-2xl border border-white/12"
+                    className="flex h-36 items-center justify-center rounded-2xl border border-border"
                     style={{ background: v.previewBg }}
                   >
                     <img
@@ -667,14 +713,14 @@ export function PressPage() {
                       loading="lazy"
                     />
                   </div>
-                  <h3 className="mt-4 font-serif text-lg text-[color:var(--color-cream)]">
+                  <h3 className="mt-4 font-serif text-lg text-[color:var(--ink-forest)]">
                     {v.name[l]}
                   </h3>
-                  <p className="mt-1 text-sm text-[color:var(--color-cream)]/95">{v.note[l]}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">{v.note[l]}</p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {v.files.map((f) => (
-                      <a key={f.href} href={f.href} download className={DOWNLOAD_BTN_LIGHT}>
-                        <Download className="h-3.5 w-3.5" /> {f.label}
+                      <a key={f.href} href={f.href} download className={DOWNLOAD_BTN}>
+                        <Download className="h-3.5 w-3.5" /> {typeof f.label === "string" ? f.label : f.label[l]}
                       </a>
                     ))}
                   </div>
@@ -683,13 +729,14 @@ export function PressPage() {
             </div>
 
             {/* Iconen en avatars */}
-            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <h3 className="mt-10 font-serif text-xl text-[color:var(--ink-forest)] md:text-2xl">{COPY.iconsTitle[l]}</h3>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {ICON_FILES.map((icon) => (
                 <a
                   key={icon.href}
                   href={icon.href}
                   download
-                  className={`${DARK_CARD} flex items-center gap-4 transition-colors hover:border-white/40`}
+                  className="flex items-center gap-4 rounded-2xl border border-border bg-card p-4 transition-colors hover:border-[color:var(--color-terracotta)]"
                 >
                   <img
                     onError={handleImageError}
@@ -699,10 +746,10 @@ export function PressPage() {
                     loading="lazy"
                   />
                   <span className="min-w-0">
-                    <span className="block truncate text-sm font-medium text-[color:var(--color-cream)]">
+                    <span className="block truncate text-sm font-medium text-foreground">
                       {icon.label[l]}
                     </span>
-                    <span className="block text-xs text-[color:var(--color-cream)]/95">
+                    <span className="block text-xs text-muted-foreground">
                       {icon.size}
                     </span>
                   </span>
@@ -713,23 +760,23 @@ export function PressPage() {
 
           {/* Merkkleuren */}
           <section id="kleuren" className="scroll-mt-24">
-            <h2 className={SECTION_TITLE_LIGHT}>{COPY.colorsTitle[l]}</h2>
+            <h2 className={SECTION_TITLE}>{COPY.colorsTitle[l]}</h2>
             <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {COLORS.map((c) => (
                 <button
                   key={c.hex}
                   type="button"
                   onClick={() => copy(c.hex, c.hex, `${c.hex} — ${COPY.copied[l]}`)}
-                  className={`${DARK_CARD} text-left transition-colors hover:border-white/40`}
+                  className="rounded-2xl border border-border bg-card p-4 text-left transition-colors hover:border-[color:var(--color-terracotta)]"
                 >
                   <span
-                    className="block h-20 w-full rounded-2xl border border-white/20"
+                    className="block h-16 w-full rounded-xl border border-border"
                     style={{ background: c.hex }}
                   />
-                  <span className="mt-3 block text-sm font-medium text-[color:var(--color-cream)]">
+                  <span className="mt-3 block text-sm font-medium text-foreground">
                     {c.name}
                   </span>
-                  <span className="mt-1 inline-flex items-center gap-2 font-mono text-xs uppercase text-[color:var(--color-cream)]/95">
+                  <span className="mt-1 inline-flex items-center gap-2 font-mono text-xs uppercase text-muted-foreground">
                     {c.hex}
                     {copied === c.hex ? (
                       <Check className="h-3.5 w-3.5 text-[color:var(--color-terracotta)]" />
@@ -737,7 +784,7 @@ export function PressPage() {
                       <Copy className="h-3.5 w-3.5" />
                     )}
                   </span>
-                  <span className="mt-2 block text-xs text-[color:var(--color-cream)]/95">
+                  <span className="mt-2 block text-xs text-muted-foreground">
                     {c.use[l]}
                   </span>
                 </button>
@@ -997,6 +1044,16 @@ export function PressPage() {
         lang={l}
         onClose={() => setCropper(null)}
       />
-    </main>
+      </main>
+    </div>
+  );
+}
+
+function JumpLink({ item, lang }: { item: (typeof NAV_PILLS)[number]; lang: Lang }) {
+  const Icon = item.icon;
+  return (
+    <a href={item.href} className={DOWNLOAD_BTN_LIGHT}>
+      <Icon className="h-3.5 w-3.5" aria-hidden /> {item.label[lang]}
+    </a>
   );
 }
