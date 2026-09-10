@@ -11,7 +11,28 @@ import {
   saveZone,
   setTaskStatus,
   type TaskBoard,
+  type TaskPriority,
+  type TaskStatus,
 } from "@/lib/tasks.functions";
+
+export type TaskFormInput = {
+  id?: string;
+  title: string;
+  description: string;
+  zone_id: string | null;
+  assigned_to: string | null;
+  due_date: string | null;
+  priority: TaskPriority;
+  status: TaskStatus;
+};
+
+export type ZoneFormInput = {
+  id?: string;
+  name: string;
+  description: string;
+  sort_order: number;
+  active: boolean;
+};
 
 const EMPTY: TaskBoard = { zones: [], tasks: [], staff: [], currentUserId: "" };
 
@@ -30,12 +51,12 @@ export function useTasks() {
   const onError = (e: unknown) => toast.error(e instanceof Error ? e.message : "Er ging iets mis");
 
   const saveTaskM = useMutation({
-    mutationFn: (input: Parameters<typeof saveTaskFn>[0]["data"]) => saveTaskFn({ data: input }),
+    mutationFn: (input: TaskFormInput) => saveTaskFn({ data: input }),
     onSuccess: invalidate,
     onError,
   });
   const statusM = useMutation({
-    mutationFn: (input: Parameters<typeof statusFn>[0]["data"]) => statusFn({ data: input }),
+    mutationFn: (input: { id: string; status: TaskStatus }) => statusFn({ data: input }),
     onSuccess: invalidate,
     onError,
   });
@@ -45,7 +66,7 @@ export function useTasks() {
     onError,
   });
   const saveZoneM = useMutation({
-    mutationFn: (input: Parameters<typeof saveZoneFn>[0]["data"]) => saveZoneFn({ data: input }),
+    mutationFn: (input: ZoneFormInput) => saveZoneFn({ data: input }),
     onSuccess: invalidate,
     onError,
   });
