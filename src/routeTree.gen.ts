@@ -82,6 +82,7 @@ import { Route as VeldAanvragenRouteImport } from './routes/veld.aanvragen'
 import { Route as VeldDienstenRouteImport } from './routes/veld.diensten'
 import { Route as VeldMeerRouteImport } from './routes/veld.meer'
 import { Route as VeldScannerRouteImport } from './routes/veld.scanner'
+import { Route as VeldTakenRouteImport } from './routes/veld.taken'
 import { Route as VerifieerIndexRouteImport } from './routes/verifieer.index'
 import { Route as VerifieerCodeRouteImport } from './routes/verifieer.$code'
 import { Route as VerifyCodeRouteImport } from './routes/verify.$code'
@@ -520,6 +521,11 @@ const VeldScannerRoute = VeldScannerRouteImport.update({
   path: '/scanner',
   getParentRoute: () => VeldRoute,
 } as any)
+const VeldTakenRoute = VeldTakenRouteImport.update({
+  id: '/taken',
+  path: '/taken',
+  getParentRoute: () => VeldRoute,
+} as any)
 const VerifieerIndexRoute = VerifieerIndexRouteImport.update({
   id: '/verifieer/',
   path: '/verifieer/',
@@ -956,6 +962,7 @@ export interface FileRoutesByFullPath {
   '/veld/diensten': typeof VeldDienstenRoute
   '/veld/meer': typeof VeldMeerRoute
   '/veld/scanner': typeof VeldScannerRoute
+  '/veld/taken': typeof VeldTakenRoute
   '/verifieer/$code': typeof VerifieerCodeRoute
   '/verify/$code': typeof VerifyCodeRoute
   '/webshop/bedankt': typeof WebshopBedanktRoute
@@ -1098,6 +1105,7 @@ export interface FileRoutesByTo {
   '/veld/diensten': typeof VeldDienstenRoute
   '/veld/meer': typeof VeldMeerRoute
   '/veld/scanner': typeof VeldScannerRoute
+  '/veld/taken': typeof VeldTakenRoute
   '/verifieer/$code': typeof VerifieerCodeRoute
   '/verify/$code': typeof VerifyCodeRoute
   '/webshop/bedankt': typeof WebshopBedanktRoute
@@ -1245,6 +1253,7 @@ export interface FileRoutesById {
   '/veld/diensten': typeof VeldDienstenRoute
   '/veld/meer': typeof VeldMeerRoute
   '/veld/scanner': typeof VeldScannerRoute
+  '/veld/taken': typeof VeldTakenRoute
   '/verifieer/$code': typeof VerifieerCodeRoute
   '/verify/$code': typeof VerifyCodeRoute
   '/webshop/bedankt': typeof WebshopBedanktRoute
@@ -1392,6 +1401,7 @@ export interface FileRouteTypes {
     | '/veld/diensten'
     | '/veld/meer'
     | '/veld/scanner'
+    | '/veld/taken'
     | '/verifieer/$code'
     | '/verify/$code'
     | '/webshop/bedankt'
@@ -1534,6 +1544,7 @@ export interface FileRouteTypes {
     | '/veld/diensten'
     | '/veld/meer'
     | '/veld/scanner'
+    | '/veld/taken'
     | '/verifieer/$code'
     | '/verify/$code'
     | '/webshop/bedankt'
@@ -1680,6 +1691,7 @@ export interface FileRouteTypes {
     | '/veld/diensten'
     | '/veld/meer'
     | '/veld/scanner'
+    | '/veld/taken'
     | '/verifieer/$code'
     | '/verify/$code'
     | '/webshop/bedankt'
@@ -2394,6 +2406,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VeldScannerRouteImport
       parentRoute: typeof VeldRoute
     }
+    '/veld/taken': {
+      id: '/veld/taken'
+      path: '/taken'
+      fullPath: '/veld/taken'
+      preLoaderRoute: typeof VeldTakenRouteImport
+      parentRoute: typeof VeldRoute
+    }
     '/verifieer/': {
       id: '/verifieer/'
       path: '/verifieer'
@@ -2954,6 +2973,7 @@ interface VeldRouteChildren {
   VeldDienstenRoute: typeof VeldDienstenRoute
   VeldMeerRoute: typeof VeldMeerRoute
   VeldScannerRoute: typeof VeldScannerRoute
+  VeldTakenRoute: typeof VeldTakenRoute
   VeldIndexRoute: typeof VeldIndexRoute
 }
 
@@ -2962,6 +2982,7 @@ const VeldRouteChildren: VeldRouteChildren = {
   VeldDienstenRoute: VeldDienstenRoute,
   VeldMeerRoute: VeldMeerRoute,
   VeldScannerRoute: VeldScannerRoute,
+  VeldTakenRoute: VeldTakenRoute,
   VeldIndexRoute: VeldIndexRoute,
 }
 

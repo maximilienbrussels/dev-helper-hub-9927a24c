@@ -25,6 +25,9 @@ export const PERMISSIONS = [
   "view_audit",
   "manage_settings",
   "manage_content",
+  "view_tasks",
+  "manage_tasks",
+  "manage_zones",
 ] as const;
 
 export type Permission = (typeof PERMISSIONS)[number];
