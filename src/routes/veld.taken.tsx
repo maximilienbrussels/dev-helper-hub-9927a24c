@@ -84,7 +84,7 @@ function FieldTasks() {
                   <p className="mt-2 text-sm text-muted-foreground">{task.description}</p>
                 ) : null}
                 <div className="mt-3 flex items-center justify-between gap-3">
-                  <StatusPill tone={task.priority === "hoog" ? "warn" : "muted"}>
+                  <StatusPill tone={task.priority === "hoog" ? "active" : "neutral"}>
                     {task.priority}
                   </StatusPill>
                   <Button
