@@ -74,7 +74,8 @@ function FieldTasks() {
         <ul className="space-y-3">
           {list.map((task) => (
             <li key={task.id}>
-              <FieldCard title={task.title}>
+              <FieldCard>
+                <p className="text-base font-semibold">{task.title}</p>
                 <FieldMeta>
                   {zoneName(task.zone_id)}
                   {task.due_date ? ` · ${task.due_date}` : ""}
