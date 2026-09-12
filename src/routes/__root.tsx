@@ -23,13 +23,15 @@ import { PwaInstallProvider } from "../lib/pwa-install";
 import {
   getEnvAppMode,
   getServerAppMode,
+  isAdminOnlyPath,
   isAdminPath,
   isAppModeSwitchable,
+  isFieldOnlyPath,
   isFieldPath,
   resolveAppMode,
   type AppMode,
 } from "../lib/app-mode";
-import { getRequestAppMode } from "../lib/app-mode.request";
+import { crossModeHref, getRequestAppMode, getRequestHost } from "../lib/app-mode.request";
 
 /**
  * Drie gescheiden bundels: de publieke bezoekerssite, het beheerportaal en de
