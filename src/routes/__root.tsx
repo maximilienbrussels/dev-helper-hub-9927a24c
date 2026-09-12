@@ -108,8 +108,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     if (appMode === "field" && !isFieldPath(location.pathname)) {
       throw redirect({ to: "/veld", replace: true });
     }
+    // De publieke bezoekerssite toont nooit het beheerportaal of de veld-app:
+    // die paden gaan naar hun eigen omgeving (of ?mode=… in preview/dev).
+    if (appMode === "public") {
+      if (isAdminOnlyPath(location.pathname)) {
+        const host = await getRequestHost();
+        throw redirect({ href: crossModeHref("admin", location.pathname, host), replace: true });
+      }
+      if (isFieldOnlyPath(location.pathname)) {
+        const host = await getRequestHost();
+        throw redirect({ href: crossModeHref("field", location.pathname, host), replace: true });
+      }
+    }
     return { appMode };
   },
+
   head: () => ({
     meta: [
       { charSet: "utf-8" },
