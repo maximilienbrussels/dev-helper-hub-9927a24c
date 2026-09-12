@@ -103,29 +103,34 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
    * meteen naar /auth, dat ingelogde medewerkers zelf naar het portaal stuurt.
    */
   beforeLoad: async ({ location }) => {
+    const host = await getRequestHost();
+    const fixedHost = isAdminHostname(host) || isFieldHostname(host);
+
+    // Preview/dev: geen echte domeinen, dus het pad bepaalt de omgeving.
+    // Zo blijven publieke pagina's publiek en admin-paden admin, zonder
+    // doorsturen op basis van een eerder gekozen modus.
+    if (getEnvAppMode() === null && !fixedHost) {
+      return { appMode: modeFromPath(location.pathname) ?? "public" };
+    }
+
     const appMode = await getRequestAppMode();
     if (appMode === "admin" && !isAdminPath(location.pathname)) {
-      const host = await getRequestHost();
       throw redirect({ href: crossModeHref("admin", "/auth", host), replace: true });
     }
     if (appMode === "field" && !isFieldPath(location.pathname)) {
-      const host = await getRequestHost();
       throw redirect({ href: crossModeHref("field", "/veld", host), replace: true });
     }
-    // De publieke bezoekerssite toont nooit het beheerportaal of de veld-app:
-    // die paden gaan naar hun eigen omgeving (of ?mode=… in preview/dev).
     if (appMode === "public") {
       if (isAdminOnlyPath(location.pathname)) {
-        const host = await getRequestHost();
         throw redirect({ href: crossModeHref("admin", location.pathname, host), replace: true });
       }
       if (isFieldOnlyPath(location.pathname)) {
-        const host = await getRequestHost();
         throw redirect({ href: crossModeHref("field", location.pathname, host), replace: true });
       }
     }
     return { appMode };
   },
+
 
   head: () => ({
     meta: [
