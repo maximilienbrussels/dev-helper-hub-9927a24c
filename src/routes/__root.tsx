@@ -23,13 +23,15 @@ import { PwaInstallProvider } from "../lib/pwa-install";
 import {
   getEnvAppMode,
   getServerAppMode,
+  isAdminOnlyPath,
   isAdminPath,
   isAppModeSwitchable,
+  isFieldOnlyPath,
   isFieldPath,
   resolveAppMode,
   type AppMode,
 } from "../lib/app-mode";
-import { getRequestAppMode } from "../lib/app-mode.request";
+import { crossModeHref, getRequestAppMode, getRequestHost } from "../lib/app-mode.request";
 
 /**
  * Drie gescheiden bundels: de publieke bezoekerssite, het beheerportaal en de
@@ -103,13 +105,28 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   beforeLoad: async ({ location }) => {
     const appMode = await getRequestAppMode();
     if (appMode === "admin" && !isAdminPath(location.pathname)) {
-      throw redirect({ to: "/auth", replace: true });
+      const host = await getRequestHost();
+      throw redirect({ href: crossModeHref("admin", "/auth", host), replace: true });
     }
     if (appMode === "field" && !isFieldPath(location.pathname)) {
-      throw redirect({ to: "/veld", replace: true });
+      const host = await getRequestHost();
+      throw redirect({ href: crossModeHref("field", "/veld", host), replace: true });
+    }
+    // De publieke bezoekerssite toont nooit het beheerportaal of de veld-app:
+    // die paden gaan naar hun eigen omgeving (of ?mode=… in preview/dev).
+    if (appMode === "public") {
+      if (isAdminOnlyPath(location.pathname)) {
+        const host = await getRequestHost();
+        throw redirect({ href: crossModeHref("admin", location.pathname, host), replace: true });
+      }
+      if (isFieldOnlyPath(location.pathname)) {
+        const host = await getRequestHost();
+        throw redirect({ href: crossModeHref("field", location.pathname, host), replace: true });
+      }
     }
     return { appMode };
   },
+
   head: () => ({
     meta: [
       { charSet: "utf-8" },
