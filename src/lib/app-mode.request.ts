@@ -4,7 +4,13 @@
  * Browser: leest window.location.
  */
 import { createIsomorphicFn } from "@tanstack/react-start";
-import { detectAppMode, isAdminHostname, isFieldHostname, type AppMode } from "./app-mode";
+import {
+  detectAppMode,
+  isAdminHostname,
+  isFieldHostname,
+  resolveAppMode,
+  type AppMode,
+} from "./app-mode";
 import { ADMIN_ORIGIN, FIELD_ORIGIN, PUBLIC_ORIGIN } from "./urls";
 
 export const getRequestAppMode = createIsomorphicFn()
@@ -20,7 +26,9 @@ export const getRequestAppMode = createIsomorphicFn()
       return detectAppMode(null);
     }
   })
-  .client((): AppMode => detectAppMode(window.location.hostname, window.location.search));
+  // In de browser telt ook de bewaarde dev-override, zodat de gekozen omgeving
+  // bij client-navigatie (zonder ?mode= in de URL) behouden blijft.
+  .client((): AppMode => resolveAppMode());
 
 /** Hostnaam van het huidige verzoek (server) of venster (browser). */
 export const getRequestHost = createIsomorphicFn()
