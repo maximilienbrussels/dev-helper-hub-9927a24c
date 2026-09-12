@@ -67,6 +67,20 @@ export function getServerAppMode(): AppMode {
   return getEnvAppMode() ?? "public";
 }
 
+/**
+ * Modus die volgt uit het pad zelf. In preview/dev (geen vaste bundel, geen
+ * echt domein) is het pad leidend: /auth en /portaal horen bij beheer, /veld
+ * bij de veld-app, al de rest is publiek. Zo blijft een bewaarde override
+ * nooit "plakken" op publieke pagina's.
+ */
+export function modeFromPath(pathname: string): AppMode | null {
+  const path = pathname || "/";
+  if (isFieldOnlyPath(path)) return "field";
+  if (isAdminOnlyPath(path)) return "admin";
+  if (isFile(path) || path.startsWith("/api")) return null;
+  return "public";
+}
+
 /** Volledige resolutie, alleen te gebruiken na hydratie. */
 export function resolveAppMode(): AppMode {
   const envMode = getEnvAppMode();
@@ -77,14 +91,19 @@ export function resolveAppMode(): AppMode {
   if (isAdminHostname(window.location.hostname)) return "admin";
 
   const fromQuery = normalize(new URLSearchParams(window.location.search).get("mode"));
-  if (fromQuery) {
-    try {
-      window.localStorage.setItem(APP_MODE_STORAGE_KEY, fromQuery);
-    } catch {
-      /* private mode / quota */
+  const fromPath = modeFromPath(window.location.pathname);
+
+  // Het pad wint: een publieke pagina blijft publiek, ook met ?mode=admin
+  // of een oude override in de opslag.
+  if (fromPath) {
+    if (fromPath === "public" && fromQuery && fromQuery !== "public") {
+      // neutraal pad in preview: laat de query beslissen
+      return fromQuery;
     }
-    return fromQuery;
+    return fromPath;
   }
+
+  if (fromQuery) return fromQuery;
 
   try {
     const stored = normalize(window.localStorage.getItem(APP_MODE_STORAGE_KEY));
@@ -95,6 +114,7 @@ export function resolveAppMode(): AppMode {
 
   return "public";
 }
+
 
 /** Auth-flows moeten in élke modus kunnen renderen (mail-links, herstel …). */
 const AUTH_PATH_PREFIXES = [
