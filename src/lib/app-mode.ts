@@ -144,6 +144,44 @@ export function isFieldPath(pathname: string): boolean {
   return FIELD_PATH_PREFIXES.some((p) => path === p || path.startsWith(`${p}/`));
 }
 
+/**
+ * Paden die uitsluitend bij het beheerportaal horen. Deze mogen nooit op de
+ * publieke bezoekerssite of in de veld-app renderen (bezoekers melden zich aan
+ * via /login, medewerkers op het terrein via de veld-app).
+ */
+const ADMIN_ONLY_PREFIXES = [
+  "/auth",
+  "/admin",
+  "/portaal",
+  "/vandaag",
+  "/aanvragen",
+  "/kalender",
+  "/diensten",
+  "/team",
+  "/foutmeldingen",
+];
+
+/** Paden die uitsluitend bij de veld-app horen. */
+const FIELD_ONLY_PREFIXES = ["/veld", "/field"];
+
+const startsWithAny = (path: string, prefixes: string[]) =>
+  prefixes.some((p) => path === p || path.startsWith(`${p}/`));
+
+/** True voor paden van het beheerportaal (inclusief de portaalpagina's per taal). */
+export function isAdminOnlyPath(pathname: string): boolean {
+  const path = pathname || "/";
+  if (isFile(path) || path.startsWith("/api")) return false;
+  return isPortalPath(path) || startsWithAny(path, ADMIN_ONLY_PREFIXES);
+}
+
+/** True voor paden van de veld-app. */
+export function isFieldOnlyPath(pathname: string): boolean {
+  const path = pathname || "/";
+  if (isFile(path) || path.startsWith("/api")) return false;
+  return startsWithAny(path, FIELD_ONLY_PREFIXES);
+}
+
+
 /** Startpad per modus (waar een verdwaalde bezoeker naartoe gaat). */
 export function homePathFor(mode: AppMode): string {
   if (mode === "field") return "/veld";
